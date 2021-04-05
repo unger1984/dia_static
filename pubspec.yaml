@@ -1,5 +1,5 @@
 name: dia_static
-description: The middleware for Dia http server, for serving static files.
+description: The middleware for Dia http server, for serving static files. Make Dia in webserver for static content).
 version: 0.0.1
 homepage: https://github.com/unger1984/dia_static
 
@@ -7,12 +7,9 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-#  dia: ^0.0.5
-  dia:
-    path: ../dia
+  dia: ^0.0.6
   path: ^1.8.0
   mime: ^1.0.0
-  http_parser: ^4.0.0
   convert: ^3.0.0
 
 dev_dependencies:

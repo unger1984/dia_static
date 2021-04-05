@@ -5,10 +5,29 @@ The middleware for [Dia](https://github.com/unger1984/dia) for serving static fi
 A simple usage example:
 
 ```dart
-    app.use(serve());
+import 'package:dia/dia.dart';
+import 'package:dia_static/dia_static.dart';
+
+void main() {
+  final app = App();
+
+  /// Serve files from example folder
+  app.use(serve('./example'));
+
+  app.use((ctx, next) async {
+    ctx.body ??= 'error';
+  });
+
+  /// Start server listen on localhost:8080
+  app
+      .listen('localhost', 8080)
+      .then((info) => print('Server started on http://localhost:8080'));
+}
 ```
 
-## Named params:
+## Params:
+
+* `root` - path to webserver root directory
 
 ## Use with:
 
@@ -22,4 +41,4 @@ A simple usage example:
 I will be glad for any help and feedback!
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: https://github.com/unger1984/dia_cors/issues
+[tracker]: https://github.com/unger1984/dia_static/issues
