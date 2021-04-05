@@ -28,6 +28,7 @@ void main() {
 ## Params:
 
 * `root` - path to webserver root directory
+* `prefix` - url mast start with `prefix` value
 
 ## Use with:
 

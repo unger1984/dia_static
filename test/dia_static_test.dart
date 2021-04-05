@@ -9,11 +9,6 @@ void main() {
 
     setUp(() {
       dia = App();
-
-      dia?.use(serve('./example'));
-      dia?.use((ctx, next) async {
-        ctx.body ??= 'error';
-      });
       dia?.listen('localhost', 8080);
     });
 
@@ -22,14 +17,24 @@ void main() {
     });
 
     test('Not found', () async {
+      dia?.use(serve('./example'));
       final response =
           await http.get(Uri.parse('http://localhost:8080/notfound.txt'));
-      expect(response.body, equals('error'));
+      expect(response.statusCode, equals(404));
     });
 
     test('test.txt', () async {
+      dia?.use(serve('./example'));
       final response =
           await http.get(Uri.parse('http://localhost:8080/test.txt'));
+      expect(response.statusCode, equals(200));
+      expect(response.body, equals('test\n'));
+    });
+
+    test('prefix', () async {
+      dia?.use(serve('./example', prefix: '/download'));
+      final response =
+          await http.get(Uri.parse('http://localhost:8080/download/test.txt'));
       expect(response.statusCode, equals(200));
       expect(response.body, equals('test\n'));
     });

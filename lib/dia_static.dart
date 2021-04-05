@@ -10,18 +10,27 @@ import 'package:path/path.dart' as path;
 
 /// Middleware for serving static path [root]
 /// all requested url try found file in [root]
-Middleware<T> serve<T extends Context>(String root) => (ctx, next) async {
+/// [prefix] - replaced in url
+Middleware<T> serve<T extends Context>(String root, {String? prefix}) =>
+    (ctx, next) async {
       if (!Directory(root).existsSync()) {
         throw ArgumentError('Not found root directory="$root"');
       }
-      // var isFound = false;
+      if (prefix != null && !RegExp(r'^/').hasMatch(prefix)) {
+        throw ArgumentError('Param prefix mast start with "/"');
+      }
+
       if (ctx.request.method.toLowerCase() == 'get' ||
           ctx.request.method.toLowerCase() == 'header') {
         final rootDir = Directory(root);
         final rootPath = rootDir.resolveSymbolicLinksSync();
 
+        final uriPath = prefix != null
+            ? ctx.request.uri.path.replaceAll(RegExp(r'^' + prefix), '')
+            : ctx.request.uri.path;
+
         final requestPath =
-            path.joinAll([rootPath, ...ctx.request.uri.pathSegments]);
+            path.joinAll([rootPath, ...Uri.parse(uriPath).pathSegments]);
         final entityType = FileSystemEntity.typeSync(requestPath);
 
         if (entityType == FileSystemEntityType.file) {
@@ -29,8 +38,6 @@ Middleware<T> serve<T extends Context>(String root) => (ctx, next) async {
           final resolvedPath = file.resolveSymbolicLinksSync();
 
           if (path.isWithin(rootPath, resolvedPath)) {
-            // isFound = true;
-
             final length = math.min(
                 MimeTypeResolver().magicNumbersMaxLength, file.lengthSync());
             final byteSink = ByteAccumulatorSink();
@@ -51,10 +58,6 @@ Middleware<T> serve<T extends Context>(String root) => (ctx, next) async {
           }
         }
       }
-      // TODO set not found if not other routes
-      // if (!isFound) {
-      //   ctx.throwError(404);
-      // }
 
       await next();
     };
