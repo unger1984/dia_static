@@ -1,3 +1,4 @@
+/// [Middleware] for Dia that allows you to serving static files
 library dia_static;
 
 import 'dart:io';
@@ -8,7 +9,7 @@ import 'package:dia/dia.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart' as path;
 
-/// Middleware for serving static path [root]
+/// Dia [Middleware] for serving static path [root]
 /// all requested url try found file in [root]
 /// [prefix] - replaced in url
 Middleware<T> serve<T extends Context>(String root, {String? prefix}) =>

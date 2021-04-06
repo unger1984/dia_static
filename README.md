@@ -1,4 +1,19 @@
+<a href="https://pub.dartlang.org/packages/dia_static">  
+    <img src="https://img.shields.io/pub/v/dia_static.svg"  
+      alt="Pub Package" />  
+</a>
+
 The middleware for [Dia](https://github.com/unger1984/dia) for serving static files.
+
+## Install:
+
+Add to pubspec.yaml in dependencies section this:
+
+```yaml
+    dia_static: ^0.0.3
+```
+
+Then run `pub get`
 
 ## Usage:
 
@@ -28,7 +43,7 @@ void main() {
 ## Params:
 
 * `root` - path to webserver root directory
-* `prefix` - url mast start with `prefix` value
+* `prefix` - url mast start with `prefix` value, optional.
 
 ## Use with:
 
