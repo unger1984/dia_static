@@ -10,7 +10,7 @@ The middleware for [Dia](https://github.com/unger1984/dia) for serving static fi
 Add to pubspec.yaml in dependencies section this:
 
 ```yaml
-    dia_static: ^0.0.3
+    dia_static: ^0.1.0
 ```
 
 Then run `pub get`
