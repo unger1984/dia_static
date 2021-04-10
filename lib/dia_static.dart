@@ -12,7 +12,8 @@ import 'package:path/path.dart' as path;
 /// Dia [Middleware] for serving static path [root]
 /// all requested url try found file in [root]
 /// [prefix] - replaced in url
-Middleware<T> serve<T extends Context>(String root, {String? prefix}) =>
+Middleware<T> serve<T extends Context>(String root,
+        {String? prefix, String? index}) =>
     (ctx, next) async {
       if (!Directory(root).existsSync()) {
         throw ArgumentError('Not found root directory="$root"');
@@ -26,9 +27,13 @@ Middleware<T> serve<T extends Context>(String root, {String? prefix}) =>
         final rootDir = Directory(root);
         final rootPath = rootDir.resolveSymbolicLinksSync();
 
-        final uriPath = prefix != null
+        var uriPath = prefix != null
             ? ctx.request.uri.path.replaceAll(RegExp(r'^' + prefix), '')
             : ctx.request.uri.path;
+
+        if (uriPath.endsWith('/') && index != null) {
+          uriPath += index;
+        }
 
         final requestPath =
             path.joinAll([rootPath, ...Uri.parse(uriPath).pathSegments]);

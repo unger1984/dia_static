@@ -1,3 +1,9 @@
+## 0.1.1
+
+- Update Dia version to 0.1.1
+- Add optional named param `index` to allow set default file in path
+- Change example to show `index` use
+
 ## 0.1.0
 
 - Update Dia version to 0.1.0

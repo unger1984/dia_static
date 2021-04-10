@@ -44,6 +44,7 @@ void main() {
 
 * `root` - path to webserver root directory
 * `prefix` - url mast start with `prefix` value, optional.
+* `index` - default index file for serving if uri end with `/`. Default: null
 
 ## Use with:
 

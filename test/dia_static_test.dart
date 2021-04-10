@@ -38,5 +38,13 @@ void main() {
       expect(response.statusCode, equals(200));
       expect(response.body, equals('test\n'));
     });
+
+    test('index.html', () async {
+      dia?.use(serve('./example', prefix: '/download', index: 'index.html'));
+      final response =
+          await http.get(Uri.parse('http://localhost:8080/download/'));
+      expect(response.statusCode, equals(200));
+      expect(response.headers['content-type'], equals('text/html'));
+    });
   });
 }
