@@ -12,8 +12,11 @@ import 'package:path/path.dart' as path;
 /// Dia [Middleware] for serving static path [root]
 /// all requested url try found file in [root]
 /// [prefix] - replaced in url
-Middleware<T> serve<T extends Context>(String root,
-        {String? prefix, String? index}) =>
+Middleware<T> serve<T extends Context>(
+  String root, {
+  String? prefix,
+  String? index,
+}) =>
     (ctx, next) async {
       if (!Directory(root).existsSync()) {
         throw ArgumentError('Not found root directory="$root"');
@@ -45,7 +48,9 @@ Middleware<T> serve<T extends Context>(String root,
 
           if (path.isWithin(rootPath, resolvedPath)) {
             final length = math.min(
-                MimeTypeResolver().magicNumbersMaxLength, file.lengthSync());
+              MimeTypeResolver().magicNumbersMaxLength,
+              file.lengthSync(),
+            );
             final byteSink = ByteAccumulatorSink();
             await file.openRead(0, length).listen(byteSink.add).asFuture();
 
